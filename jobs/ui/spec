@@ -1,0 +1,18 @@
+---
+name:        ui
+description: The Bolo Web UI
+
+packages:
+  - bolo
+
+templates:
+  bin/ui: bin/ui
+
+consumes:
+  - name: bolo
+    type: bolo
+
+properties:
+  port:
+    description: What TCP port should the web UI listen on?
+    default:     80

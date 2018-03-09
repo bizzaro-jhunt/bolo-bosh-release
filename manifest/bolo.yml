@@ -1,0 +1,48 @@
+name: bolo
+
+instance_groups:
+  - name: bolo
+    instances: 1
+    azs: [z1]
+    vm_type: default
+    stemcell: default
+    persistent_disk: 40_960
+
+    networks:
+      - name: default
+
+    jobs:
+      - name: core
+        release: bolo
+        properties:
+          signing_key: we don't care what it is as long as you change it
+        provides:
+          bolo: { as: bolo, shared: true }
+
+      - name: ui
+        release: bolo
+
+      - name: dbolo
+        release: bolo
+
+
+
+update:
+  canaries:          0
+  max_in_flight:     1
+  serial:            true
+  canary_watch_time: 1000-120000
+  update_watch_time: 1000-120000
+
+
+stemcells:
+  - alias:   default
+    os:      ubuntu-trusty
+    version: latest
+
+
+releases:
+  - name:    bolo
+    version: latest
+    #url:     ...
+    #sha1:    ...

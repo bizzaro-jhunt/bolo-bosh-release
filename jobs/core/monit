@@ -1,0 +1,5 @@
+check process core
+  with pidfile /var/vcap/sys/run/bolo/core.pid
+  start program "/var/vcap/jobs/core/bin/core start"
+  stop  program "/var/vcap/jobs/core/bin/core stop"
+  group vcap

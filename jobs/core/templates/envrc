@@ -1,0 +1,3 @@
+# source /var/vcap/jobs/core/envrc
+export PATH=$PATH:/var/vcap/packages/bolo/bin:/var/vcap/packages/bolo/collectors
+export BOLO_DATA=/var/vcap/store/bolo

@@ -1,0 +1,29 @@
+---
+name:        dbolo
+description: The Bolo Distributed Agent
+
+packages:
+  - bolo
+
+templates:
+  bin/dbolo:      bin/dbolo
+  etc/dbolo.conf: etc/dbolo.conf
+
+consumes:
+  - name: bolo
+    type: bolo
+
+properties:
+  debug:
+    description: Enable verbose debugging in the dbolo log.  NOT RECOMMENDED FOR PRODUCTION USE.
+    default:     false
+
+  splay:
+    description: Collector scheduling splay, in seconds.
+    default:     15
+
+  collectors:
+    description: A list of collector configurations, in the form '@<time> <cmd> <args...>'
+
+  tags:
+    description: A map of tags (as keys) and their values, to set on all submitted measurements.

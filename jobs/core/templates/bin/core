@@ -1,0 +1,46 @@
+#!/bin/bash
+set -eu
+
+LD_LIBRARY_PATH=/var/vcap/packages/bolo/lib
+PATH=/var/vcap/packages/bolo/bin:$PATH
+export LD_LIBRARY_PATH PATH
+
+jobdir=/var/vcap/jobs/core
+logdir=/var/vcap/sys/log/bolo
+rundir=/var/vcap/sys/run/bolo
+pidfile=$rundir/core.pid
+
+mkdir -p $logdir $rundir
+exec >>$logdir/core.log 2>&1
+
+case $1 in
+  (start)
+    if [[ -f $pidfile ]]; then
+      pid=$(head -n1 $pidfile)
+      test -n "$pid" && test -e /proc/$pid && exit 1
+      rm -f $pidfile
+    fi
+
+    echo "$(date) starting up bolo core"
+    echo $$ >$pidfile
+    exec chpst bolo core <% if p('debug', false) %>-D <% end %>\
+                 --config $jobdir/etc/core.conf
+    exit 0
+    ;;
+
+  (stop)
+    echo "$(date) shutting down bolo core"
+    pid=$(head -n1 $pidfile)
+    if [[ -n "$pid" ]]; then
+      kill $pid || true
+      while [ -e /proc/$pid ]; do sleep 0.1; done
+    fi
+    rm -f $pidfile
+    exit 0
+    ;;
+
+  (*)
+    echo "Usage: core (start|stop)"
+    exit 1
+    ;;
+esac

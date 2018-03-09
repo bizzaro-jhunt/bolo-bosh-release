@@ -1,0 +1,12 @@
+bolo/bolo-0.0.3.tar.bz2:
+  size: 9093916
+  sha: e980bb16d44e8133e97aec0fbb14e403cd20a88c
+bolo/ui-linux-amd64-0.0.3:
+  size: 12807608
+  sha: f05202c381a506f4f3b27a4815bfc6aaa3ebc8df
+bolo/webroot.tar.bz2:
+  size: 206565
+  sha: 51514cde01912b017ae4fc8338e929fca2cfb2c8
+pcre/pcre-8.37.tar.bz2:
+  size: 1557603
+  sha: 4c629b3f582366fae4e8912f0d9fa3140347d6e7

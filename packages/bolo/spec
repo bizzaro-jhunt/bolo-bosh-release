@@ -1,0 +1,7 @@
+---
+name: bolo
+files:
+  - pcre/pcre-8.37.tar.bz2
+  - bolo/bolo-0.0.3.tar.bz2
+  - bolo/ui-linux-amd64-0.0.3
+  - bolo/webroot.tar.bz2

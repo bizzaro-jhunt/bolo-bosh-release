@@ -1,0 +1,33 @@
+---
+name:        core
+description: The Bolo Core aggregator / ingestor
+
+packages:
+  - bolo
+
+templates:
+  bin/core:      bin/core
+  etc/core.conf: etc/core.conf
+  envrc:         envrc
+
+provides:
+  - name: bolo
+    type: bolo
+    properties:
+      - port
+
+properties:
+  debug:
+    description: Enable verbose debugging in the bolo log.  NOT RECOMMENDED FOR PRODUCTION USE.
+    default:     false
+
+  port:
+    description: What TCP port should bolo bind and listen on for metric submissions?
+    default:     2002
+
+  log_level:
+    description: How verbose should the bolo logs be?
+    default:     info
+
+  signing_key:
+    description: A secret key, at least 16 characters long, for signing the bolo databases.

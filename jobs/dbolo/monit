@@ -1,0 +1,5 @@
+check process dbolo
+  with pidfile /var/vcap/sys/run/bolo/dbolo.pid
+  start program "/var/vcap/jobs/dbolo/bin/dbolo start"
+  stop  program "/var/vcap/jobs/dbolo/bin/dbolo stop"
+  group vcap

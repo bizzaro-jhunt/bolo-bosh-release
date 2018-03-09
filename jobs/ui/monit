@@ -1,0 +1,5 @@
+check process ui
+  with pidfile /var/vcap/sys/run/bolo/ui.pid
+  start program "/var/vcap/jobs/ui/bin/ui start"
+  stop  program "/var/vcap/jobs/ui/bin/ui stop"
+  group vcap

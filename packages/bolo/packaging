@@ -1,0 +1,39 @@
+#!/bin/bash
+set -eu
+V=0.0.3
+
+CPUS=$(grep -c ^proc /proc/cpuinfo)
+
+mkdir -p ${BOSH_INSTALL_TARGET}/bin \
+         ${BOSH_INSTALL_TARGET}/collectors \
+         ${BOSH_INSTALL_TARGET}/htdocs
+
+# static go binary...
+cp bolo/ui-linux-amd64-${V} ${BOSH_INSTALL_TARGET}/bin/ui
+chmod 0755 ${BOSH_INSTALL_TARGET}/bin/ui
+
+# webroot assets
+tar -xjf bolo/webroot.tar.bz2 -C ${BOSH_INSTALL_TARGET}/htdocs
+
+# compile the pcre bits
+tar -xjf pcre/pcre-8.37.tar.bz2
+pushd pcre-8.37
+  ./configure --prefix=${BOSH_INSTALL_TARGET}
+  make -j${CPUS}
+  make install
+popd
+
+LD_LIBRARY_PATH="/var/vcap/packages/bolo/lib"
+LDFLAGS="-L/var/vcap/packages/bolo/lib"
+CFLAGS="-I/var/vcap/packages/bolo/include"
+export LD_LIBRARY_PATH LDFLAGS CFLAGS
+
+# compile the c bits...
+tar -xjf bolo/bolo-${V}.tar.bz2
+pushd bolo-${V}
+  make -j${CPUS}
+  cp bolo ${BOSH_INSTALL_TARGET}/bin
+  cp linux \
+     process \
+     ${BOSH_INSTALL_TARGET}/collectors
+popd

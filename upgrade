@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [[ -z "$1" || -z "$2" || -z "$3" ]]; then
+  echo >&2 "USAGE: $0 path/to/bolo-x.y.z.tar.bz2 path/to/api-linux-amd64 /path/to/webroot.tar.bz2"
+  exit 1
+fi
+
+version=$(basename $1)
+version=${version#bolo-}
+version=${version%.tar.bz2}
+echo "upgrading to bolo v${version}..."
+
+bosh add-blob $1 bolo/$(basename $1)
+bosh add-blob $2 bolo/ui-linux-amd64-${version}
+bosh add-blob $3 bolo/webroot.tar.bz2
+
+sed -i '' -e "s/^V=.*/V=${version}/" \
+          packages/bolo/packaging
+
+sed -i '' -e "s/bolo-.*.tar.bz2/$(basename $1)/" \
+          -e "s/ui-linux-amd64-.*/ui-linux-amd64-${version}/" \
+          packages/bolo/spec
