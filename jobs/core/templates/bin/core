@@ -23,6 +23,7 @@ case $1 in
 
     echo "$(date) starting up bolo core"
     echo $$ >$pidfile
+    ulimit -n 100000
     exec chpst bolo core <% if p('debug', false) %>-D <% end %>\
                  --config $jobdir/etc/core.conf
     exit 0
